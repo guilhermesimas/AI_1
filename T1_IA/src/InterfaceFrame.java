@@ -10,7 +10,11 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
-
+/**
+ * Classe que erepresenta a interface
+ * @author Guilherme Simas
+ *
+ */
 public class InterfaceFrame {
 	private static final int WIDTH = 1500;
 	private static final int HEIGHT = 1000;
@@ -36,13 +40,17 @@ public class InterfaceFrame {
 		this.frame.setTitle(TITLE);
 		
 	}
-	
+	/**
+	 * Funçao que cria o frame da interface 
+	 */
 	public void initialize(){
 		panel = new JPanel();
 		panel.setBounds(new Rectangle(WIDTH, HEIGHT));
 		panel.setLayout(new BorderLayout());
 		this.frame.add(panel);
-		
+		/*
+		 * A interface tem acesso ao mapa e à busca
+		 */
 		
 		Mapa mapa;
 		Busca busca = new Busca();
@@ -59,26 +67,47 @@ public class InterfaceFrame {
 		int x_F = mapa.getFinalX();
 		int y_F = mapa.getFinalY();
 		
+		/*
+		 * Apos inicializar o frame e as variaveis, inicializa o panel que  mostra
+		 * o mapa.
+		 */
 		MapPanel mapPanel = new MapPanel();
 		mapPanel.setMapa(mapa);
 		mapPanel.setBusca(busca);
 		mapPanel.setBackground(new Color(0x70C0A0));		
 		panel.add(mapPanel,BorderLayout.CENTER);
 	
+		/*
+		 * Cria o botao que executa a busca e o	que executa a animaçao da soluçao	
+		 */
 		
 		JPanel ButtonPanel = new JPanel();
-		
-		JLabel costpathText = new JLabel(COST_TEXT);
-		JLabel costClareira = new JLabel(COST_TEXT);
-		
-		panel.add(ButtonPanel,BorderLayout.EAST);
-		
+		panel.add(ButtonPanel,BorderLayout.EAST);		
 		ButtonPanel.setLayout(new GridLayout(5,1,10,10));
 		
-		JButton buscaButton = new JButton(BUSCA_BUTTON_TITLE);
 		JButton solutionButton = new JButton(SOLUTION_BUTTON_TITLE);
-		solutionButton.setEnabled(false);
+		solutionButton.setEnabled(false);		
+		solutionButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				mapPanel.printSolution();
+			}
+		});
+		ButtonPanel.add(solutionButton);
+				
+		JLabel costpathText = new JLabel(COST_TEXT);
+		JLabel costClareira = new JLabel(COST_TEXT);
+		System.out.println("Total Cost: "+ totalCostPath);
+		costClareira.setText("Total Cost of Clareiras: " + totalCost);
+		ButtonPanel.add(costClareira);
 		
+		/*
+		 * O botao que realiza a busca quando apertado chama a busca e uma Thread
+		 * para imprimir o progresso da busca continuamente. No final imprime a soluçao
+		 * e imprime o custo.
+		 */
+		
+		JButton buscaButton = new JButton(BUSCA_BUTTON_TITLE);		
 		buscaButton.addActionListener(new ActionListener(){
 
 			@Override
@@ -100,15 +129,9 @@ public class InterfaceFrame {
 		});
 		ButtonPanel.add(buscaButton);
 		
-		solutionButton.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				mapPanel.printSolution();
-			}
-		});
-		ButtonPanel.add(solutionButton);
-		
-		
+		/*
+		 * Calcula a combinatoria e imprime os doces na clareira	
+		 */
 		
 		int[][]combinatoria = Combinatoria.run();
 		
@@ -125,9 +148,6 @@ public class InterfaceFrame {
 		}
 		
 		
-		System.out.println("Total Cost: "+ totalCostPath);
-		costClareira.setText("Total Cost of Clareiras: " + totalCost);
-		ButtonPanel.add(costClareira);
 		
 		
 		CandyPanel cp = new CandyPanel(combinatoria);
