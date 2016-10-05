@@ -44,30 +44,33 @@ public class CandyPanel extends JPanel {
 		JPanel ClareiraPanel = new JPanel();
 		JPanel BasketPanel = new JPanel();
 		BasketPanel.setLayout(new BorderLayout());
+		this.add(BasketPanel,BorderLayout.NORTH);
 		/*
-		 * 
+		 * Inicia a imagem da cesta
 		 */
 		ImageIcon basket = new ImageIcon(FILE_BASKET);
 		JLabel BasketLabel = new JLabel(basket);
 		BasketPanel.add(BasketLabel, BorderLayout.CENTER);
 		
+		/*
+		 * Os doces são representados por um vetor
+		 */
 		ImageIcon candy[] = new ImageIcon[N_CANDY];
-		
-		this.add(BasketPanel,BorderLayout.NORTH);
-		
-		ClareiraPanel.setLayout(new GridLayout(11,6,10,10));
-		
 		candy[0] = new ImageIcon(FILE_CANDY1);
 		candy[1] = new ImageIcon(FILE_CANDY2);
 		candy[2] = new ImageIcon(FILE_CANDY3);
 		candy[3] = new ImageIcon(FILE_CANDY4);
-		candy[4] = new ImageIcon(FILE_CANDY5);
+		candy[4] = new ImageIcon(FILE_CANDY5);		
+		/*
+		 * Inica o clareira panel com os doces baseados na matriz
+		 * que foi passada como combinatoria
+		 */
+		ClareiraPanel.setLayout(new GridLayout(11,6,10,10));
+		ClareiraPanel.add(new JLabel("C"));		
 		
-		ClareiraPanel.add(new JLabel("C"));
-		
-		for(int j=0;j<N_CANDY;j++)
+		for(int j=0;j<N_CANDY;j++){
 			ClareiraPanel.add(new JLabel(candy[j]));
-		
+		}
 		
 		for(int i=0;i<N_CLAREIRA;i++){
 			ClareiraPanel.add(new JLabel("C" + i+1));
@@ -80,7 +83,9 @@ public class CandyPanel extends JPanel {
 				}
 			}
 		}
-				
+		/*
+		 * Adiciona o painel Clareira	
+		 */
 		this.add(ClareiraPanel);
 	}
 	
