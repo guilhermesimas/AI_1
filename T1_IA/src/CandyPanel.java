@@ -7,31 +7,46 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-
+/**
+ * Classe que representa o panel que mostra os doces e a sua distribuiçao
+ * na combinatoria
+ * @author Guilherme Simas
+ *
+ */
 public class CandyPanel extends JPanel {
 
 	private static final String RUN_COMBINATORIA_LABEL = "Run Combinatoria";
-	
+	/*
+	 * Arquivos das imagens da cesta e dos doces
+	 */
 	private static final String FILE_BASKET ="basket.png";
 	private static final String FILE_CANDY1 = "candy1.png";
 	private static final String FILE_CANDY2 = "candy2.png";
 	private static final String FILE_CANDY3 = "candy3.png";
 	private static final String FILE_CANDY4 = "candy4.png";
 	private static final String FILE_CANDY5 = "candy5.png";
-
+	/*
+	 * Numero de clareiras e doces 
+	 */
 	private static final int N_CLAREIRA = 10;
-
 	private static final int N_CANDY = 5;
 	
-	
+	/**
+	 * Construtor que recebe a matriz combinatoria e inicializa o panel
+	 * @param combinatoria
+	 */
 	public CandyPanel(int[][] combinatoria){
 		
 		this.setLayout(new BorderLayout());
-		
+		/*
+		 * O Panel é formado por um panel para a combinatoria (doces) e outro para a cesta
+		 */
 		JPanel ClareiraPanel = new JPanel();
 		JPanel BasketPanel = new JPanel();
 		BasketPanel.setLayout(new BorderLayout());
-	
+		/*
+		 * 
+		 */
 		ImageIcon basket = new ImageIcon(FILE_BASKET);
 		JLabel BasketLabel = new JLabel(basket);
 		BasketPanel.add(BasketLabel, BorderLayout.CENTER);
