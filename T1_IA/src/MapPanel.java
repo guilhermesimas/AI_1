@@ -6,7 +6,11 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-
+/**
+ * Classe que representa a interface do mapa
+ * @author Guilherme Simas
+ *
+ */
 public class MapPanel extends JComponent implements Runnable{
 	
 	private static final Color COLOR_PATH = Color.LIGHT_GRAY;
@@ -33,9 +37,14 @@ public class MapPanel extends JComponent implements Runnable{
 	private static BufferedImage IMAGE_FINAL ;
 	private static BufferedImage IMAGE_CLEAR;
 	
-	
+	/*
+	 * Mantem as referecias para a busca e o mapa
+	 */
 	private Busca busca;
 	private Mapa mapa;
+	/*
+	 * na inicializaçao, lê todos os arquivos e os transforma em imagens
+	 */
 	{
 		try {
 			IMAGE_PATH = ImageIO.read(new File(FILE_PATH));
@@ -45,17 +54,26 @@ public class MapPanel extends JComponent implements Runnable{
 			IMAGE_FINAL = ImageIO.read(new File(FILE_FINAL));
 			IMAGE_CLEAR = ImageIO.read(new File(FILE_CLEAR));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		
 	}
+	/**
+	 * Seta o mapa
+	 * @param mapa
+	 */
 	public void setMapa (Mapa mapa){
 		this.mapa = mapa;
 	}
-	
+	/**
+	 * Override do paintComponent define como o componente é desenhado
+	 */
 	@Override
 	protected void paintComponent (Graphics g){
+		/*
+		 * Imprime cada casa do mapa com dua respectiva imagem
+		 */
 		super.paintComponent(g);
 		System.out.println("paintComponent");
 		int rows = mapa.getRows();
@@ -71,17 +89,14 @@ public class MapPanel extends JComponent implements Runnable{
 						);
 			}
 		}
-//		Node cBest = busca.getCurrentBest();
-		//ArrayList<Node> borders = busca.getBorders();
-//		int visited[][] = busca.getVisited();
-		
-
-		//printBorders(borders,g);
-//		printVisited(visited,g);
-//		printPathToNode(cBest,g);
 	}
+	/**
+	 * Imprime uma grid em casa nó que ja foi visitado
+	 * @param visited
+	 * @param g
+	 */
 	private void printVisited(int[][] visited, Graphics g) {
-		// TODO Auto-generated method stub
+		
 		if(visited == null){
 			return;
 		}
@@ -93,19 +108,20 @@ public class MapPanel extends JComponent implements Runnable{
 		for(int i =0;i<mapa.getCollumns();i++){
 			for(int j=0;j<mapa.getRows();j++){
 				if(visited[i][j] != -1){
-//					drawTile(g,mapa.getChar(j, i),
-//							new Rectangle(super.getX()+j*x_offset,
-//									super.getY()+i*y_offset,
-//									x_offset,y_offset)
-//							);
 					drawVisited(i,j,g);
 				}
 			}
 		}
 		
 	}
+	/**
+	 * Desenha a grid no indice i,j da matriz
+	 * @param j
+	 * @param i
+	 * @param g
+	 */
 	private void drawVisited(int j, int i, Graphics g) {
-		// TODO Auto-generated method stub
+		
 		int rows = mapa.getRows();
 		int collumns = mapa.getCollumns();
 		int x_offset = super.getWidth()/rows;
@@ -130,8 +146,13 @@ public class MapPanel extends JComponent implements Runnable{
 		}
 		g.setColor(c);
 	}
+	/**
+	 * Imprime um contorno nas fronteiras
+	 * @param borders
+	 * @param g
+	 */
 	private void printBorders(ArrayList<Node> borders, Graphics g) {
-		// TODO Auto-generated method stub
+		
 		if(borders==null){
 			return;
 		}
@@ -145,15 +166,17 @@ public class MapPanel extends JComponent implements Runnable{
 								super.getY()+n.getY()*y_offset,
 								x_offset,y_offset);
 			g.setColor(COLOR_SOLUTION);
-			g.drawRect(r.x, r.y, r.width, r.height);
-					
-				
-			
+			g.drawRect(r.x, r.y, r.width, r.height);			
 		}
 		
 	}
+	/**
+	 * Imprime um caminho (linha vermelha) até o nó cBest
+	 * @param cBest
+	 * @param g
+	 */
 	public void printPathToNode(Node cBest, Graphics g) {
-		// TODO Auto-generated method stub
+		
 		if(cBest == null){
 			return;
 		}
@@ -176,34 +199,39 @@ public class MapPanel extends JComponent implements Runnable{
 		}
 		g.setColor(c);
 	}
+	/**
+	 * Imprime a imagem relacionado ao char passado como parametro
+	 * no Retangulo passado como parametro
+	 * @param g
+	 * @param char1
+	 * @param r
+	 */
 	private void drawTile(Graphics g, char char1,Rectangle r) {
-		// TODO Auto-generated method stub
+		
 		Color c = g.getColor();
 		g.translate(r.x, r.y);
 		printImage(IMAGE_PATH,r.width,r.height,g);
 		switch(char1){
-			case '.':
-//				g.setColor(COLOR_PATH);
-				
+			case '.':				
 				break;
 			case 'G':
-//				g.setColor(COLOR_GALHO);
+
 				printImage(IMAGE_GRASS,r.width,r.height,g);
 				break;
 			case 'D':
-//				g.setColor(COLOR_DENSE);
+
 				printImage(IMAGE_DENSE,r.width,r.height,g);
 				break;
 			case 'I':
-//				g.setColor(COLOR_INICIO);
+
 				printImage(IMAGE_INITIAL,r.width,r.height,g);
 				break;
 			case 'F':
-//				g.setColor(COLOR_FINAL);
+
 				printImage(IMAGE_FINAL,r.width,r.height,g);
 				break;
 			case 'C':
-//				g.setColor(COLOR_CLAREIRA);
+
 				printImage(IMAGE_CLEAR,r.width,r.height,g);
 				break;
 			case '@':
@@ -212,46 +240,26 @@ public class MapPanel extends JComponent implements Runnable{
 				g.drawLine(r.x+r.width/2, r.y, r.x+r.width/2 , r.y+r.height);
 				g.drawLine(r.x, r.y+r.height/2, r.x+r.width , r.y+r.height/2);
 				return;
-				//break;
+
 			default:
 				g.setColor(c);
 				break;
 		}
-//		g.fillRect(r.x, r.y, r.width, r.height);
-//		g.setColor(Color.BLACK);
-//		g.drawRect(r.x, r.y, r.width, r.height);
-		
 		
 		g.translate(-r.x, -r.y);
-		g.setColor(c);
-		
-		
+		g.setColor(c);		
 	}
-//	public void printSolution(Graphics g){
-//		int rows = mapa.getRows();
-//		int collumns = mapa.getCollumns();
-//		int x_offset = super.getWidth()/rows;
-//		int y_offset = super.getHeight()/collumns;
-//		
-//		for(int i = 0; i< rows; i++){
-//			for(int j=0; j<collumns ; j++){
-//				if(mapa.getChar(j, i)=='@'){
-//					Rectangle r = new Rectangle(super.getX()+j*x_offset,
-//							super.getY()+i*y_offset,
-//							x_offset,y_offset);
-//					g.setColor(COLOR_SOLUTION);
-//					g.drawLine(r.x+r.width/2, r.y, r.x+r.width/2 , r.y+r.height);
-//					g.drawLine(r.x, r.y+r.height/2, r.x+r.width , r.y+r.height/2);
-//				}
-//			}
-//		}
-//		this.printVisited(this.busca.getVisited(), g);
-//	}
+	/**
+	 * seta a busca
+	 * @param busca2
+	 */
 	public void setBusca(Busca busca2) {
-		// TODO Auto-generated method stub
+
 		this.busca=busca2;
 	}
-	
+	/**
+	 * Anima a "chapeuzinho" andando até a o melhor no da busca no momento
+	 */
 	public void printSolution(){
 		Node end = this.busca.getCurrentBest();
 		ArrayList<Node> solution = new ArrayList<>();
@@ -276,25 +284,27 @@ public class MapPanel extends JComponent implements Runnable{
 			try {
 				Thread.sleep(200);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+		
 				e.printStackTrace();
 			}
 		}
 		
 	}
-
+	/**
+	 * Imprime o caminho ate o melhor no e as grids nos nós visitados
+	 */
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
+	
 		while(true){
-//			this.paintComponent(getGraphics());
+
 			this.printVisited(busca.getVisited(), getGraphics());
 			this.printPathToNode(busca.getCurrentBest(), this.getGraphics());
-//			System.out.println("repaint");
+
 			try {
 				Thread.sleep(1000/REFRESH_RATE);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 			}
 		}
@@ -314,6 +324,10 @@ public class MapPanel extends JComponent implements Runnable{
 		
 		return;
 	}
+	/**
+	 * Imprime a imagem no no e em sua localizaçao
+	 * @param n
+	 */
 	private void printNode (Node n){
 		int rows = mapa.getRows();
 		int collumns = mapa.getCollumns();
@@ -326,6 +340,11 @@ public class MapPanel extends JComponent implements Runnable{
 		
 		drawTile(getGraphics(), mapa.getChar(n.getX(), n.getY()), r);
 	}
+	/**
+	 * mesmoq ue o anterior mas a imagem pode ser forçada passando o caracter
+	 * @param n
+	 * @param forceChar
+	 */
 	private void printNode (Node n,char forceChar){
 		int rows = mapa.getRows();
 		int collumns = mapa.getCollumns();

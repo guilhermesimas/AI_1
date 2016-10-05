@@ -1,7 +1,9 @@
-
-
 import java.util.ArrayList;
-
+/**
+ * Classe que representa um nó do mapa, tambem utilizado para a representaçao de arvore da busca
+ * @author Guilherme Simas
+ *
+ */
 public class Node {
 
 	public int x;
@@ -38,6 +40,12 @@ public class Node {
 		return this.y;
 	}
 	
+	/**
+	 * Funçao que checa se o no passado ocmo parametro é antepassado do No
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	public boolean isDescendantOf(int x,int y){
 		Node parent = this.parent;
 		while(parent!=null){
