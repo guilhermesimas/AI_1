@@ -145,10 +145,7 @@ public class InterfaceFrame {
 				candyFactor = 1;
 			}
 			totalCost+=CLAREIRA_COST[i]/candyFactor;
-		}
-		
-		
-		
+		}		
 		
 		CandyPanel cp = new CandyPanel(combinatoria);
 		panel.add(cp,BorderLayout.WEST);
