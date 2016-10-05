@@ -31,12 +31,10 @@ public class Node {
 	}
 
 	public int getX() {
-		// TODO Auto-generated method stub
 		return this.x;
 	}
 
 	public int getY() {
-		// TODO Auto-generated method stub
 		return this.y;
 	}
 	
@@ -52,7 +50,6 @@ public class Node {
 	}
 
 	public void setCost(int cost) {
-		// TODO Auto-generated method stub
 		this.cost=cost;
 	}
 	

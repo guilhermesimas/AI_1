@@ -41,6 +41,7 @@ public class X implements Comparable{
 		
 		return this.value;
 	}
+
 	public boolean isValid(){
 		
 		int nCandy[] = new int[N_TYPE_CANDY];
@@ -62,6 +63,9 @@ public class X implements Comparable{
 		}
 		return true;
 	}
+
+	/*Calcula o custo da combinatoria*/
+	
 	public void avaliate(){
 		
 		float totalCost=0;
@@ -78,6 +82,8 @@ public class X implements Comparable{
 		this.value = totalCost;		
 	}
 	
+	/* Gera 2 novos filhos */
+
 	public ArrayList<X> recombine(X x){
 		Random r = new Random();
 		if(r.nextBoolean()){
@@ -87,12 +93,9 @@ public class X implements Comparable{
 		}
 	}
 	
-	
-	/**
-	 * Generates and evaluates 2 children
-	 * @param x 
-	 * @return
-	 */
+	/*Sorteia o numero de linhas a serem recombinadas
+	  Sorteia o ponto de corte de cada uma das linhas
+	  Gera 2 filhos a partir dessa recombinação*/
 	
 	public ArrayList<X> recombine_1ponto_corte(X x){
 		
@@ -145,13 +148,16 @@ public class X implements Comparable{
 		}
 
 		ArrayList<X> children = new ArrayList<X>();
-		//f1.avaliate();
-		//f2.avaliate();
 		children.add(f1);
 		children.add(f2);
 		return children;
 	}
 	
+	/*Gera dois filhos baseado na recombinacao uniforme.
+		Sorteia numero de linhas a serem recombinadas.
+		Pra cada linha a recombinar, cada elemento é
+		sorteado se vai para o filho 1 ou 2.*/
+
 public ArrayList<X> recombine_uniforme(X x){
 		
 		
@@ -191,8 +197,6 @@ public ArrayList<X> recombine_uniforme(X x){
 		}
 		
 		ArrayList<X> children = new ArrayList<X>();
-		//f1.avaliate();
-		//f2.avaliate();
 		children.add(f1);
 		children.add(f2);
 		return children;
@@ -207,10 +211,15 @@ public ArrayList<X> recombine_uniforme(X x){
 		}
 	}
 	
+
+	/* Troca 2 linhas, necessariamente diferentes,
+		de lugar.*/
+
 	public void mutate_swap_line(){
 		Random r = new Random();
 		int i1 = r.nextInt(N_ROWS);
 		int i2 = i1;
+
 		//Until it finds a different line
 		while(i2==i1){
 			i2 = r.nextInt(N_ROWS);
@@ -223,10 +232,9 @@ public ArrayList<X> recombine_uniforme(X x){
 		
 	}
 
+
+	/*Nega uma campo randômico da matriz.*/
 	public void mutate_1bit(){
-		/*TODO: implement
-		 * 
-		 */
 		
 		Random r = new Random();
 		int i = r.nextInt(N_ROWS);
@@ -236,33 +244,6 @@ public ArrayList<X> recombine_uniforme(X x){
 			this.matrix[i][j] = 1;
 		else
 			this.matrix[i][j] = 0;
-		
-//		if(!this.isValid()){
-//			if(this.matrix[i][j] == 0)
-//				this.matrix[i][j] = 1;
-//			else
-//				this.matrix[i][j] = 0;
-//		}
-				
-	
-//		Random r = new Random();
-//		int i1 = r.nextInt(N_ROWS);
-//		int i2 = r.nextInt(N_ROWS);
-//		int j = r.nextInt(N_COLLUMNS);
-//		
-//		if(this.matrix[i1][j] != this.matrix[i2][j]){
-//			int temp = this.matrix[i1][j];
-//			this.matrix[i1][j] = this.matrix[i2][j];
-//			this.matrix[i2][j] = temp;
-//		}
-//		
-//		for(int i = 0; i<N_ROWS;i++){
-//			if(this.matrix[i1][j] != this.matrix[(i2+i)%N_ROWS][j]){
-//				int temp = this.matrix[i1][j];
-//				this.matrix[i1][j] = this.matrix[(i2+i)%N_ROWS][j];
-//				this.matrix[(i2+i)%N_ROWS][j] = temp;
-//			}
-//		}
 		
 	}
 	
